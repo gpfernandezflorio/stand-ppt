@@ -1,0 +1,87 @@
+html, body {
+  height: 100%;
+  margin: 0px;
+}
+
+/*div {
+  border: solid 2px;
+}*/
+
+#juego {
+  height: 100%;
+}
+
+#juego-titulo {
+  height: 10%;
+  text-align: center;
+}
+
+#juego-titulo-texto {
+  display: inline-block;
+}
+
+.texto-titulo {
+  font-size: 6vh;
+}
+
+#juego-accion {
+  height: 50%;
+}
+
+#juego-accion-tabla {
+  margin: 0 auto;
+  width: 95%;
+  height: 100%;
+}
+
+.juego-accion-celda {
+  height: 100%;
+  width: 30%;
+  text-align: center;
+}
+
+#juego-accion-rival {
+  height: 45vh;
+  border: solid 2px;
+  background-color: #ddd;
+}
+
+#juego-accion-jugada-rival {
+  height: 30vh;
+  position: relative;
+  top: -30vh;
+}
+
+#juego-accion-historial {
+}
+
+.celda-historial {
+  height: 10vh;
+}
+
+#juego-control {
+  height: 40%;
+}
+
+#juego-control-tabla {
+  margin: 0 auto;
+  width: 80%;
+  height: 100%;
+}
+
+.juego-control-celda {
+  font-size: 10vh;
+  text-align: center;
+  height: 80%;
+}
+
+.juego-control-pic {
+  z-index: 100;
+  margin-top: -5vh;
+  width: 20vh;
+}
+.juego-control-tecla {
+  position: absolute;
+  font-weight: bold;
+  z-index: 101;
+}

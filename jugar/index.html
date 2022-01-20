@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="utf-8" http-equiv="encoding">
+    <title>Piedra, Papel o Tijera</title>
+    <link rel="stylesheet" href="juego.css" media="screen,projection">
+    <script src="juego.js"></script>
+    <script src="jugador.js"></script>
+  </head>
+  <body>
+    <!-- INICIO -->
+    <div id="inicio">
+      <input type="button" value="Empezar" onclick="empezar();">
+    </div>
+
+    <!-- JUEGO -->
+    <div id="juego" hidden>
+      <div class="texto-titulo" id="juego-titulo">
+        <span><span id="juego-titulo-texto"></span><span>  </span><span id="juego-titulo-valor"></span></span>
+      </div>
+
+      <div id="juego-accion">
+        <table id="juego-accion-tabla">
+          <td class="juego-accion-celda"><div class="juego-accion-celda">
+            <!-- -->
+          </div></td>
+          <td class="juego-accion-celda"><div class="juego-accion-celda">
+            <img id="juego-accion-rival">
+            <img id="juego-accion-jugada-rival">
+          </div></td>
+          <td class="juego-accion-celda"><div class="juego-accion-celda">
+            <table id="juego-accion-historial"></table>
+          </div></td>
+        </table>
+      </div>
+
+      <div id="juego-control">
+        <table id="juego-control-tabla">
+          <td class="juego-control-celda"><div class="juego-control-celda">
+            <span id="elegir-tecla-piedra" class="juego-control-tecla">Z</span><br><img class="juego-control-pic" src="piedra.png">
+          </div></td>
+          <td class="juego-control-celda"><div class="juego-control-celda">
+            <span id="elegir-tecla-papel" class="juego-control-tecla">X</span><br><img class="juego-control-pic" src="papel.png">
+          </div></td>
+          <td class="juego-control-celda"><div class="juego-control-celda">
+            <span id="elegir-tecla-tijera" class="juego-control-tecla">C</span><br><img class="juego-control-pic" src="tijera.png">
+          </div></td>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
