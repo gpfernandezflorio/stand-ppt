@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta content="utf-8" http-equiv="encoding">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <title>Piedra, Papel o Tijera</title>
     <link rel="stylesheet" href="juego.css" media="screen,projection">
+    <script src="../ext/lang.js"></script>
     <script src="juego.js"></script>
     <script src="jugador.js"></script>
   </head>
   <body>
     <!-- INICIO -->
-    <div id="inicio">
-      <input type="button" value="Empezar" onclick="empezar();">
+    <div id="inicio" hidden>
+      <input id="botonEmpezar" type="button" onclick="empezar();">
     </div>
 
     <!-- JUEGO -->

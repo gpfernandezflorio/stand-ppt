@@ -6,10 +6,6 @@ const Settings = {
   controles: {} // se inicializa después en base a Control
 };
 
-const Textos = {
-  titulo: 'Cantidad jugadas:'
-};
-
 const Colores = {
   neutro: '#999',
   empate: '#00d',
@@ -31,6 +27,10 @@ const EstadoDelJuego = {
   timeout: null
 };
 
+function onLoad() {
+  document.getElementById('inicio').hidden = false;
+}
+
 function empezar() {
   document.getElementById('inicio').hidden = true;
   document.getElementById('juego').hidden = false;
@@ -39,7 +39,6 @@ function empezar() {
 }
 
 function inicializar() {
-  document.getElementById('juego-titulo-texto').innerHTML = Textos.titulo;
   document.getElementById('elegir-tecla-piedra').innerHTML = Control.elegir_piedra;
   document.getElementById('elegir-tecla-papel').innerHTML = Control.elegir_papel;
   document.getElementById('elegir-tecla-tijera').innerHTML = Control.elegir_tijera;
