@@ -36,11 +36,6 @@
                 1px 1px 0 #bbb;
             }
         </style>
-        <script type="text/javascript">
-          function onLoad() {
-            document.getElementById('main').hidden = false;
-          }
-        </script>
     </head>
 
     <body style="background: url(bg.png) no-repeat;  background-size: cover; background-attachment: fixed;">
@@ -49,6 +44,20 @@
           <a class="index-linkJuego" href="jugar/index.html"></a>
           <script src="ext/lang.js"></script>
           <script src="ext/event.js"></script>
+          <script type="text/javascript">
+            const PPT = {
+              textos: {
+                'es':{contenidoClase: {'index-linkJuego': 'Jugar'}},
+                'en':{contenidoClase: {'index-linkJuego': 'Play'}}
+              }
+            };
+            PPT.onLoad = function() {
+              document.getElementById('main').hidden = false;
+            };
+            window.addEventListener('load', function() {
+              LANG.inicializar(PPT.textos, PPT.onLoad);
+            });
+          </script>
         </div>
     </body>
 </html>

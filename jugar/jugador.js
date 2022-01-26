@@ -1,19 +1,19 @@
-function jugadorRandom() {
-  return new Jugador(jugadaRandom);
+PPT.jugadorRandom = function() {
+  return new PPT.Jugador(PPT.jugadaRandom);
 }
 
-function jugadorBart() {
-  return new Jugador(jugadaPiedra);
+PPT.jugadorBart = function() {
+  return new PPT.Jugador(PPT.jugadaPiedra);
 }
 
-function Jugador(funcion_decision) {
+PPT.Jugador = function(funcion_decision) {
   this.decision = funcion_decision;
 }
 
-function jugadaRandom() {
+PPT.jugadaRandom = function() {
   return ['piedra','papel','tijera'][Math.floor(3*Math.random())];
 };
 
-function jugadaPiedra() {
+PPT.jugadaPiedra = function() {
   return 'piedra';
 };
