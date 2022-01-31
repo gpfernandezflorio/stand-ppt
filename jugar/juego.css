@@ -7,6 +7,10 @@ html, body {
   border: solid 2px;
 }*/
 
+#inicio {
+  margin: 25px;
+}
+
 #juego {
   height: 100%;
 }

@@ -3,7 +3,20 @@ const PPT = {};
 PPT.textos = {
   'es':{
     contenidoId: {
-      'juego-titulo-texto': 'Cantidad jugadas:'
+      'juego-titulo-texto': 'Cantidad jugadas:',
+      'settings-juego': 'Opciones del juego',
+      'settings-juego-rival': 'Rival',
+      'settings-qlearn': 'Parámetros Q Learning',
+      'settings-qlearn-memoria': 'Tamaño de la memoria (cantidad de jugadas que recuerda)',
+      'settings-controles': 'Controles',
+      'settings-controles-piedra': 'Elegir piedra',
+      'settings-controles-papel': 'Elegir papel',
+      'settings-controles-tijera': 'Elegir tijera'
+    },
+    contenidoClase: {
+      'settings-juego-rival-random': 'Aleatorio',
+      'settings-juego-rival-rock': 'La buena piedra',
+      'settings-juego-rival-qLearn': 'Q Learning',
     },
     valorId: {
       'botonEmpezar': 'Empezar'
@@ -11,7 +24,20 @@ PPT.textos = {
   },
   'en':{
     contenidoId: {
-      'juego-titulo-texto': 'Number of plays:'
+      'juego-titulo-texto': 'Number of plays:',
+      'settings-juego': 'Game options',
+      'settings-juego-rival': 'Oponent',
+      'settings-qlearn': 'Q Learning parameters',
+      'settings-qlearn-memoria': 'Memory size (number of past plays remembered)',
+      'settings-controles': 'Controls',
+      'settings-controles-piedra': 'Choose rock',
+      'settings-controles-papel': 'Choose paper',
+      'settings-controles-tijera': 'Choose scissors'
+    },
+    contenidoClase: {
+      'settings-juego-rival-random': 'Random',
+      'settings-juego-rival-rock': 'Good old rock',
+      'settings-juego-rival-qLearn': 'Q Learning',
     },
     valorId: {
       'botonEmpezar': 'Start'
@@ -19,7 +45,14 @@ PPT.textos = {
   }
 };
 
+for (let tecla of 'qwertyuiopasdfghjklzxcvbnm') {
+  for (let l in PPT.textos) {
+    PPT.textos[l].contenidoClase[`tecla-${tecla}`] = tecla.toUpperCase();
+  }
+}
+
 PPT.Settings = {
+  rival: 'jugadorBart',
   parametrosQLearning: {
     memoria: 3
   },
@@ -51,8 +84,20 @@ PPT.EstadoDelJuego = {
 PPT.empezar = function() {
   document.getElementById('inicio').hidden = true;
   document.getElementById('juego').hidden = false;
+  PPT.cargarSettings();
   PPT.inicializar();
   PPT.reiniciar();
+};
+
+PPT.cargarSettings = function() {
+  PPT.Settings.rival = document.getElementById('selector-rival').value;
+  let memoria = document.getElementById('selector-memoria').value;
+  if (memoria > 5) { memoria = 5; }
+  if (memoria < 0) { memoria = 0; }
+  PPT.Settings.parametrosQLearning.memoria = memoria;
+  PPT.Control.elegir_piedra = document.getElementById('selector-piedra').value;
+  PPT.Control.elegir_papel = document.getElementById('selector-papel').value;
+  PPT.Control.elegir_tijera = document.getElementById('selector-tijera').value;
 };
 
 PPT.inicializar = function() {
@@ -61,7 +106,7 @@ PPT.inicializar = function() {
   document.getElementById('elegir-tecla-tijera').innerHTML = PPT.Control.elegir_tijera;
   document.getElementById('juego-accion-historial').innerHTML = PPT.inicializarTablaHistorial();
   PPT.EstadoDelJuego.rival = (Math.floor(2*Math.random())==0 ? 'clemen' : 'tina');
-  PPT.EstadoDelJuego.jugador_rival = PPT.jugadorBart();
+  PPT.EstadoDelJuego.jugador_rival = PPT[PPT.Settings.rival]();
   PPT.inicializarControles();
 }
 
@@ -200,7 +245,29 @@ PPT.codigoTecla = function(tecla) {
   }
 }
 
+PPT.teclas = [{id:'tecla-a'},{id:'tecla-b'},{id:'tecla-c'}];
+
 PPT.onLoad = function() {
+  let teclas = [];
+  let dependenciaQLearn = {'selector-rival':'jugadorQLearn'};
+  for (let tecla of 'qwertyuiopasdfghjklzxcvbnm') {
+    teclas.push({class:`tecla-${tecla}`, value:tecla.toUpperCase()});
+  }
+  Settings.menu('settings', [
+    {id:'settings-juego'},
+      {id:'settings-juego-rival', valor:{campo:{id:'selector-rival',defectoClass:'settings-juego-rival-qLearn',opciones:[
+        {class:'settings-juego-rival-random', value:'jugadorRandom'},
+        {class:'settings-juego-rival-rock', value:'jugadorBart'},
+        {class:'settings-juego-rival-qLearn', value:'jugadorQLearn'}
+      ]}}},
+    {id:'settings-qlearn',dependencias:dependenciaQLearn},
+      {id:'settings-qlearn-memoria',dependencias:dependenciaQLearn,
+        valor:{dependencias:dependenciaQLearn,campo:{id:'selector-memoria',value:3,min:1,max:5,opciones:'numero'}}},
+    {id:'settings-controles'},
+      {id:'settings-controles-piedra', valor:{campo:{id:'selector-piedra',defectoClass:'tecla-z',opciones:teclas}}},
+      {id:'settings-controles-papel', valor:{campo:{id:'selector-papel',defectoClass:'tecla-x',opciones:teclas}}},
+      {id:'settings-controles-tijera', valor:{campo:{id:'selector-tijera',defectoClass:'tecla-c',opciones:teclas}}}
+  ]);
   document.getElementById('inicio').hidden = false;
 };
 

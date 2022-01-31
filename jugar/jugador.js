@@ -1,14 +1,18 @@
 PPT.jugadorRandom = function() {
   return new PPT.Jugador(PPT.jugadaRandom);
-}
+};
 
 PPT.jugadorBart = function() {
   return new PPT.Jugador(PPT.jugadaPiedra);
-}
+};
+
+PPT.jugadorQLearn = function() {
+  return new PPT.Jugador(PPT.jugadaQLearn);
+};
 
 PPT.Jugador = function(funcion_decision) {
   this.decision = funcion_decision;
-}
+};
 
 PPT.jugadaRandom = function() {
   return ['piedra','papel','tijera'][Math.floor(3*Math.random())];
@@ -16,4 +20,8 @@ PPT.jugadaRandom = function() {
 
 PPT.jugadaPiedra = function() {
   return 'piedra';
+};
+
+PPT.jugadaQLearn = function() {
+  return PPT.jugadaRandom();
 };
