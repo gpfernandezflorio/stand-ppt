@@ -54,7 +54,15 @@ for (let tecla of 'qwertyuiopasdfghjklzxcvbnm') {
 PPT.Settings = {
   rival: 'jugadorBart',
   parametrosQLearning: {
-    memoria: 3
+    memoria: 3,
+    alpha: 0.2,
+    gamma: 0.0,
+    recompensa: {
+      win: 5.0,
+      lose:-5.0,
+      tie:-4.0
+    },
+    initial: 2.0
   },
   timeoutJugadaRival: 700, // ms mostrando la decisión del rival antes de refrescar
   controles: {} // se inicializa después en base a Control
@@ -213,10 +221,14 @@ PPT.jugada = function(nueva_jugada) {
     victoria = 'jugador';
     color_jugador = PPT.Colores.gana;
     color_rival = PPT.Colores.pierde;
+    PPT.EstadoDelJuego.jugador_rival.perdi();
   } else if (PPT.gana(jugada_rival, nueva_jugada)) {
     victoria = 'rival';
     color_jugador = PPT.Colores.pierde;
     color_rival = PPT.Colores.gana;
+    PPT.EstadoDelJuego.jugador_rival.gane();
+  } else {
+    PPT.EstadoDelJuego.jugador_rival.empate();
   }
   historial.push({
     jugada_jugador: nueva_jugada,
