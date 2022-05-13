@@ -61,6 +61,13 @@ html, body {
   position: absolute;
 }
 
+#juego-accion-jugada-rival-outcome {
+  height: 30vh;
+  margin-left: -15vh;
+  margin-top: 10vh;
+  position: absolute;
+}
+
 #juego-accion-historial {
 }
 

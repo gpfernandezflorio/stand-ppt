@@ -199,6 +199,7 @@ PPT.actualizarPantallaJugada = function() {
 
 PPT.limpiarPantallaJugadaRival = function() {
   document.getElementById('juego-accion-jugada-rival').src = '';
+  document.getElementById('juego-accion-jugada-rival-outcome').src = '';
   document.body.style['background-color'] = PPT.Colores.neutro;
   if (PPT.EstadoDelJuego.timeout !== null) {
     clearTimeout(PPT.EstadoDelJuego.timeout);
@@ -225,10 +226,23 @@ PPT.actualizarPantallaHistorial = function() {
   }
 }
 
-PPT.actualizarPantallaJugadaRival = function(jugada_rival, color) {
+PPT.actualizarPantallaJugadaRival = function(jugada_rival, color, pulgar) {
   PPT.actualizarPantallaJugada();
   document.getElementById('juego-accion-jugada-rival').src = `${jugada_rival}.png`;
+  if (PPT.EstadoDelJuego.timeout !== null) { clearTimeout(PPT.EstadoDelJuego.timeout); }
+  PPT.EstadoDelJuego.timeout = setTimeout(
+    function() { PPT.actualizarPantallaJugadaRivalOutcome(color, pulgar); }, 150);
+}
+
+PPT.actualizarPantallaJugadaRivalOutcome = function(color, pulgar) {
+  if (pulgar != 0) {
+    let img = document.getElementById('juego-accion-jugada-rival-outcome');
+    img.src = 'pulgar.png';
+    img.style = `transform:rotate(${90*(pulgar-1)}deg);`;
+  }
   document.body.style['background-color'] = color;
+  if (PPT.EstadoDelJuego.timeout !== null) { clearTimeout(PPT.EstadoDelJuego.timeout); }
+  PPT.EstadoDelJuego.timeout = setTimeout(PPT.limpiarPantallaJugadaRival, PPT.Settings.timeoutJugadaRival);
 }
 
 PPT.teclaPresionada = function(evento) {
@@ -256,19 +270,22 @@ PPT.jugada = function(nueva_jugada) {
   if (historial.length == PPT.Settings.parametrosQLearning.memoria) {
     historial.splice(0, 1);
   }
-  victoria = 'empate';
-  color_jugador = PPT.Colores.empate;
-  color_rival = PPT.Colores.empate;
+  let victoria = 'empate';
+  let color_jugador = PPT.Colores.empate;
+  let color_rival = PPT.Colores.empate;
+  let pulgar = 0;
   if (PPT.gana(nueva_jugada, jugada_rival)) {
     victoria = 'jugador';
     color_jugador = PPT.Colores.gana;
     color_rival = PPT.Colores.pierde;
     PPT.EstadoDelJuego.jugador_rival.perdi();
+    pulgar = 1;
   } else if (PPT.gana(jugada_rival, nueva_jugada)) {
     victoria = 'rival';
     color_jugador = PPT.Colores.pierde;
     color_rival = PPT.Colores.gana;
     PPT.EstadoDelJuego.jugador_rival.gane();
+    pulgar = -1;
   } else {
     PPT.EstadoDelJuego.jugador_rival.empate();
   }
@@ -281,14 +298,10 @@ PPT.jugada = function(nueva_jugada) {
   });
   PPT.EstadoDelJuego.cantidad_jugadas ++;
   PPT.actualizarRanking(victoria);
-  PPT.actualizarPantallaJugadaRival(jugada_rival, color_jugador);
-  if (PPT.EstadoDelJuego.timeout !== null) {
-    clearTimeout(PPT.EstadoDelJuego.timeout);
-  }
-  PPT.EstadoDelJuego.timeout = setTimeout(PPT.limpiarPantallaJugadaRival, PPT.Settings.timeoutJugadaRival);
+  PPT.actualizarPantallaJugadaRival(jugada_rival, color_jugador, pulgar);
 }
 
-PPT.actualizarRanking = function() {
+PPT.actualizarRanking = function(victoria) {
   let ultimo;
   let nuevo;
   if (PPT.EstadoDelJuego.ranking.length > 0) {
