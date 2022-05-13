@@ -49,22 +49,22 @@ html, body {
 }
 
 #juego-accion-rival {
-  height: 45vh;
+  height: 20vh;
   border: solid 2px;
   background-color: #ddd;
 }
 
 #juego-accion-jugada-rival {
-  height: 30vh;
-  margin-left: -45vh;
+  height: 20vh;
+  margin-left: -25vh;
   margin-top: 10vh;
   position: absolute;
 }
 
 #juego-accion-jugada-rival-outcome {
-  height: 30vh;
-  margin-left: -15vh;
-  margin-top: 10vh;
+  height: 20vh;
+  margin-left: -25vh;
+  margin-top: 5vh;
   position: absolute;
 }
 
