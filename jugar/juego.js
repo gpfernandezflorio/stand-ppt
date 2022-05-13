@@ -4,6 +4,8 @@ PPT.textos = {
   'es':{
     contenidoId: {
       'juego-titulo-texto': 'Cantidad jugadas:',
+      'juego-historial-jugador': 'Mis jugadas:',
+      'juego-historial-rival': 'Jugadas del oponente:',
       'settings-juego': 'Opciones del juego',
       'settings-juego-rival': 'Rival',
       'settings-qlearn': 'Parámetros Q Learning',
@@ -19,12 +21,16 @@ PPT.textos = {
       'settings-juego-rival-qLearn': 'Q Learning',
     },
     valorId: {
-      'botonEmpezar': 'Empezar'
+      'botonEmpezar': 'Empezar',
+      'botonAtrás': 'Atrás',
+      'botonReiniciar': 'Reiniciar'
     }
   },
   'en':{
     contenidoId: {
       'juego-titulo-texto': 'Number of plays:',
+      'juego-historial-jugador': 'My plays:',
+      'juego-historial-rival': 'Opponent\'s plays:',
       'settings-juego': 'Game options',
       'settings-juego-rival': 'Oponent',
       'settings-qlearn': 'Q Learning parameters',
@@ -40,7 +46,9 @@ PPT.textos = {
       'settings-juego-rival-qLearn': 'Q Learning',
     },
     valorId: {
-      'botonEmpezar': 'Start'
+      'botonEmpezar': 'Start',
+      'botonAtrás': 'Back',
+      'botonReiniciar': 'Reset'
     }
   }
 };
@@ -69,10 +77,11 @@ PPT.Settings = {
 };
 
 PPT.Colores = {
+  ninguno: '#FFF',
   neutro: '#999',
-  empate: '#00d',
-  gana: '#0d0',
-  pierde: '#d00',
+  empate: '#77d',
+  gana: '#3d3',
+  pierde: '#d33',
 };
 
 PPT.Control = {
@@ -87,6 +96,12 @@ PPT.EstadoDelJuego = {
   jugador_rival: null,
   rival: 'tina',
   timeout: null
+};
+
+PPT.volverALosSettings = function() {
+  document.body.style['background-color'] = PPT.Colores.ninguno;
+  document.getElementById('juego').hidden = true;
+  document.getElementById('inicio').hidden = false;
 };
 
 PPT.empezar = function() {
@@ -112,23 +127,21 @@ PPT.inicializar = function() {
   document.getElementById('elegir-tecla-piedra').innerHTML = PPT.Control.elegir_piedra;
   document.getElementById('elegir-tecla-papel').innerHTML = PPT.Control.elegir_papel;
   document.getElementById('elegir-tecla-tijera').innerHTML = PPT.Control.elegir_tijera;
-  document.getElementById('juego-accion-historial').innerHTML = PPT.inicializarTablaHistorial();
-  PPT.EstadoDelJuego.rival = (Math.floor(2*Math.random())==0 ? 'clemen' : 'tina');
+  PPT.inicializarTablaHistorial();
   PPT.EstadoDelJuego.jugador_rival = PPT[PPT.Settings.rival]();
   PPT.inicializarControles();
 }
 
 PPT.inicializarTablaHistorial = function() {
-  let contenido = '';
   let cant_columnas = PPT.Settings.parametrosQLearning.memoria;
   for (let i=0; i<2; i++) {
-    contenido += '<tr>';
+    let contenido = '<tr>';
     for (let j=0; j<cant_columnas; j++) {
       contenido += `<td class="celda-historial" id="celda-historial-${i}-${j}"><img class="celda-historial" id="celda-historial-${i}-${j}-pic"></td>`;
     }
     contenido += '</tr>';
+    document.getElementById(`juego-tabla-${i}`).innerHTML = contenido;
   }
-  return contenido;
 }
 
 PPT.inicializarControles = function() {
@@ -141,6 +154,7 @@ PPT.inicializarControles = function() {
 PPT.reiniciar = function() {
   PPT.EstadoDelJuego.cantidad_jugadas = 0;
   PPT.EstadoDelJuego.rival = (PPT.EstadoDelJuego.rival == 'tina' ? 'clemen' : 'tina');
+  PPT.EstadoDelJuego.historial = [];
   PPT.actualizarPantallaJuego();
 }
 
@@ -265,6 +279,7 @@ PPT.onLoad = function() {
   for (let tecla of 'qwertyuiopasdfghjklzxcvbnm') {
     teclas.push({class:`tecla-${tecla}`, value:tecla.toUpperCase()});
   }
+  document.body.style['background-color'] = PPT.Colores.ninguno;
   Settings.menu('settings', [
     {id:'settings-juego'},
       {id:'settings-juego-rival', valor:{campo:{id:'selector-rival',defectoClass:'settings-juego-rival-qLearn',opciones:[

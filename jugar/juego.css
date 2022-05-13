@@ -28,6 +28,10 @@ html, body {
   font-size: 6vh;
 }
 
+.texto-mensaje {
+  font-size: 4vh;
+}
+
 #juego-accion {
   height: 50%;
 }
@@ -52,8 +56,8 @@ html, body {
 
 #juego-accion-jugada-rival {
   height: 30vh;
-  position: relative;
-  top: -30vh;
+  position: absolute;
+  top: 20vh;
 }
 
 #juego-accion-historial {
@@ -88,4 +92,10 @@ html, body {
   position: absolute;
   font-weight: bold;
   z-index: 101;
+}
+
+.menu-superior {
+  float:left;
+  margin-left: 20px;
+  margin-top: -10px;
 }

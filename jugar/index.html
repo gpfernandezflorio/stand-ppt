@@ -19,6 +19,10 @@
     <!-- JUEGO -->
     <div id="juego" hidden>
       <div class="texto-titulo" id="juego-titulo">
+        <div class="menu-superior">
+          <input id="botonAtrás" type="button" onclick="PPT.volverALosSettings();">
+          <input id="botonReiniciar" type="button" onclick="PPT.reiniciar();">
+        </div>
         <span><span id="juego-titulo-texto"></span><span>  </span><span id="juego-titulo-valor"></span></span>
       </div>
 
@@ -31,8 +35,11 @@
             <img id="juego-accion-rival">
             <img id="juego-accion-jugada-rival">
           </div></td>
-          <td class="juego-accion-celda"><div class="juego-accion-celda">
-            <table id="juego-accion-historial"></table>
+          <td class="juego-accion-celda"><div>
+            <div id="juego-accion-historial">
+              <span id="juego-historial-jugador" class="texto-mensaje"></span><br><table id="juego-tabla-0"></table>
+              <span id="juego-historial-rival" class="texto-mensaje"></span><br><table id="juego-tabla-1"></table>
+            </div>
           </div></td>
         </table>
       </div>
