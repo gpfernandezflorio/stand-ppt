@@ -6,6 +6,9 @@ PPT.textos = {
       'juego-titulo-texto': 'Cantidad jugadas:',
       'juego-historial-jugador': 'Mis jugadas:',
       'juego-historial-rival': 'Jugadas del oponente:',
+      'juego-historial-ganadas': 'Ganadas:',
+      'juego-historial-perdidas': 'Perdidas:',
+      'juego-historial-empatadas': 'Empatadas:',
       'settings-juego': 'Opciones del juego',
       'settings-juego-rival': 'Rival',
       'settings-qlearn': 'Parámetros Q Learning',
@@ -31,6 +34,9 @@ PPT.textos = {
       'juego-titulo-texto': 'Number of plays:',
       'juego-historial-jugador': 'My plays:',
       'juego-historial-rival': 'Opponent\'s plays:',
+      'juego-historial-ganadas': 'Wins:',
+      'juego-historial-perdidas': 'Loses:',
+      'juego-historial-empatadas': 'Ties:',
       'settings-juego': 'Game options',
       'settings-juego-rival': 'Oponent',
       'settings-qlearn': 'Q Learning parameters',
@@ -95,7 +101,8 @@ PPT.EstadoDelJuego = {
   cantidad_jugadas: 0,
   jugador_rival: null,
   rival: 'tina',
-  timeout: null
+  timeout: null,
+  ranking: []
 };
 
 PPT.volverALosSettings = function() {
@@ -155,7 +162,10 @@ PPT.reiniciar = function() {
   PPT.EstadoDelJuego.cantidad_jugadas = 0;
   PPT.EstadoDelJuego.rival = (PPT.EstadoDelJuego.rival == 'tina' ? 'clemen' : 'tina');
   PPT.EstadoDelJuego.historial = [];
+  PPT.EstadoDelJuego.ranking = [];
+  PPT.EstadoDelJuego.jugador_rival.reiniciar();
   PPT.actualizarPantallaJuego();
+  PPT.actualizarPantallaRanking({w:0, l:0, t:0});
 }
 
 PPT.actualizarPantallaJuego = function() {
@@ -252,12 +262,42 @@ PPT.jugada = function(nueva_jugada) {
     color_rival: color_rival,
   });
   PPT.EstadoDelJuego.cantidad_jugadas ++;
+  PPT.actualizarRanking(victoria);
   PPT.actualizarPantallaJugadaRival(jugada_rival, color_jugador);
   if (PPT.EstadoDelJuego.timeout !== null) {
     clearTimeout(PPT.EstadoDelJuego.timeout);
   }
   PPT.EstadoDelJuego.timeout = setTimeout(PPT.limpiarPantallaJugadaRival, PPT.Settings.timeoutJugadaRival);
 }
+
+PPT.actualizarRanking = function() {
+  let ultimo;
+  let nuevo;
+  if (PPT.EstadoDelJuego.ranking.length > 0) {
+    ultimo = PPT.EstadoDelJuego.ranking[PPT.EstadoDelJuego.ranking.length-1];
+    nuevo = Object.assign({}, ultimo);
+  } else {
+    ultimo = { w: 0, l: 0, t: 0 };
+    nuevo = ultimo;
+  }
+  if (victoria == 'jugador') {
+    nuevo.w = ultimo.w + 1;
+  } else if (victoria == 'rival') {
+    nuevo.l = ultimo.l + 1;
+  } else {
+    nuevo.t = ultimo.t + 1;
+  }
+  PPT.EstadoDelJuego.ranking.push(nuevo);
+  PPT.actualizarPantallaRanking(nuevo);
+};
+
+PPT.actualizarPantallaRanking = function(data) {
+  let k = PPT.EstadoDelJuego.cantidad_jugadas;
+  if (k > 0) { k = 100 / k; }
+  document.getElementById('juego-historial-ganadas-data').innerHTML = data.w + ' (' + Math.round(data.w *k) + '%)';
+  document.getElementById('juego-historial-perdidas-data').innerHTML = data.l + ' (' + Math.round(data.l *k) + '%)';
+  document.getElementById('juego-historial-empatadas-data').innerHTML = data.t + ' (' + Math.round(data.t *k) + '%)';
+};
 
 PPT.gana = function(una_jugada, otra_jugada) {
   return (una_jugada == 'piedra' && otra_jugada == 'tijera') ||

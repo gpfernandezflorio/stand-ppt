@@ -56,8 +56,9 @@ html, body {
 
 #juego-accion-jugada-rival {
   height: 30vh;
+  margin-left: -45vh;
+  margin-top: 10vh;
   position: absolute;
-  top: 20vh;
 }
 
 #juego-accion-historial {

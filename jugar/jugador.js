@@ -28,12 +28,6 @@ PPT.JugadorQLearn = function() {
     this.actualizarHistorial(outcome);
   }
   this.estado = 'HISTORIAL'; // 'HISTORIAL_Y_OUTCOME'
-  this.q = {};
-  this.historial = [];
-  this.porcentajes = {};
-  for (let k of PPT.jugadas) {
-    this.porcentajes[k] = 100.0/3;
-  }
   for (let k in PPT.Settings.parametrosQLearning) {
     this[k] = PPT.Settings.parametrosQLearning[k];
   }
@@ -80,6 +74,15 @@ PPT.JugadorQLearn = function() {
       this.historial = this.historial.splice(1);
     }
   }
+  this.reiniciar = function() {
+    this.q = {};
+    this.historial = [];
+    this.porcentajes = {};
+    for (let k of PPT.jugadas) {
+      this.porcentajes[k] = 100.0/3;
+    }
+  };
+  this.reiniciar();
 };
 
 PPT.Jugador = function(funcion_decision) {
@@ -87,6 +90,7 @@ PPT.Jugador = function(funcion_decision) {
   this.gane = function() {};
   this.perdi = function() {};
   this.empate = function() {};
+  this.reiniciar = function() {};
 };
 
 PPT.jugadaRandom = function() {
