@@ -10,9 +10,15 @@ PPT.textos = {
       'juego-historial-perdidas': 'Perdidas:',
       'juego-historial-empatadas': 'Empatadas:',
       'settings-juego': 'Opciones del juego',
+      'settings-juego-timeout': 'Tiempo (ms) mostrando la jugada rival',
       'settings-juego-rival': 'Rival',
       'settings-qlearn': 'Parámetros Q Learning',
       'settings-qlearn-memoria': 'Tamaño de la memoria (cantidad de jugadas que recuerda)',
+      'settings-qlearn-alpha': 'Alfa (peso del aprendizaje)',
+      'settings-qlearn-gamma': 'Gamma',
+      'settings-qlearn-win': 'Recompensa por victoria',
+      'settings-qlearn-lose': 'Recompensa por derrota',
+      'settings-qlearn-tie': 'Recompensa por empate',
       'settings-controles': 'Controles',
       'settings-controles-piedra': 'Elegir piedra',
       'settings-controles-papel': 'Elegir papel',
@@ -38,9 +44,15 @@ PPT.textos = {
       'juego-historial-perdidas': 'Loses:',
       'juego-historial-empatadas': 'Ties:',
       'settings-juego': 'Game options',
-      'settings-juego-rival': 'Oponent',
+      'settings-juego-timeout': 'Time (ms) showing opponent\'s play',
+      'settings-juego-rival': 'Opponent',
       'settings-qlearn': 'Q Learning parameters',
       'settings-qlearn-memoria': 'Memory size (number of past plays remembered)',
+      'settings-qlearn-alpha': 'Alpha (learning weight)',
+      'settings-qlearn-gamma': 'Gamma',
+      'settings-qlearn-win': 'Victory reward',
+      'settings-qlearn-lose': 'Failure reward',
+      'settings-qlearn-tie': 'Draw reward',
       'settings-controles': 'Controls',
       'settings-controles-piedra': 'Choose rock',
       'settings-controles-papel': 'Choose paper',
@@ -125,6 +137,12 @@ PPT.cargarSettings = function() {
   if (memoria > 5) { memoria = 5; }
   if (memoria < 0) { memoria = 0; }
   PPT.Settings.parametrosQLearning.memoria = memoria;
+  PPT.Settings.parametrosQLearning.alpha = document.getElementById('selector-alpha').value;
+  PPT.Settings.parametrosQLearning.gamma = document.getElementById('selector-gamma').value;
+  PPT.Settings.parametrosQLearning.recompensa.win = document.getElementById('selector-win').value;
+  PPT.Settings.parametrosQLearning.recompensa.lose = document.getElementById('selector-lose').value;
+  PPT.Settings.parametrosQLearning.recompensa.tie = document.getElementById('selector-tie').value;
+  PPT.Settings.timeoutJugadaRival = document.getElementById('selector-timeout').value;
   PPT.Control.elegir_piedra = document.getElementById('selector-piedra').value;
   PPT.Control.elegir_papel = document.getElementById('selector-papel').value;
   PPT.Control.elegir_tijera = document.getElementById('selector-tijera').value;
@@ -322,6 +340,7 @@ PPT.onLoad = function() {
   document.body.style['background-color'] = PPT.Colores.ninguno;
   Settings.menu('settings', [
     {id:'settings-juego'},
+      {id:'settings-juego-timeout', valor:{campo:{id:'selector-timeout',value:700,opciones:'numero'}}},
       {id:'settings-juego-rival', valor:{campo:{id:'selector-rival',defectoClass:'settings-juego-rival-qLearn',opciones:[
         {class:'settings-juego-rival-random', value:'jugadorRandom'},
         {class:'settings-juego-rival-rock', value:'jugadorBart'},
@@ -330,6 +349,16 @@ PPT.onLoad = function() {
     {id:'settings-qlearn',dependencias:dependenciaQLearn},
       {id:'settings-qlearn-memoria',dependencias:dependenciaQLearn,
         valor:{dependencias:dependenciaQLearn,campo:{id:'selector-memoria',value:3,min:1,max:5,opciones:'numero'}}},
+      {id:'settings-qlearn-alpha',dependencias:dependenciaQLearn,
+        valor:{dependencias:dependenciaQLearn,campo:{id:'selector-alpha',value:0.2,min:0,max:1,step:0.1,opciones:'numero'}}},
+      {id:'settings-qlearn-gamma',dependencias:dependenciaQLearn,
+        valor:{dependencias:dependenciaQLearn,campo:{id:'selector-gamma',value:0.1,min:0,max:1,step:0.1,opciones:'numero'}}},
+      {id:'settings-qlearn-win',dependencias:dependenciaQLearn,
+        valor:{dependencias:dependenciaQLearn,campo:{id:'selector-win',value:5,opciones:'numero'}}},
+      {id:'settings-qlearn-lose',dependencias:dependenciaQLearn,
+        valor:{dependencias:dependenciaQLearn,campo:{id:'selector-lose',value:-5,opciones:'numero'}}},
+      {id:'settings-qlearn-tie',dependencias:dependenciaQLearn,
+        valor:{dependencias:dependenciaQLearn,campo:{id:'selector-tie',value:-4,opciones:'numero'}}},
     {id:'settings-controles'},
       {id:'settings-controles-piedra', valor:{campo:{id:'selector-piedra',defectoClass:'tecla-z',opciones:teclas}}},
       {id:'settings-controles-papel', valor:{campo:{id:'selector-papel',defectoClass:'tecla-x',opciones:teclas}}},
