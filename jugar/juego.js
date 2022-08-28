@@ -352,14 +352,14 @@ PPT.onLoad = function() {
   }
   document.body.style['background-color'] = PPT.Colores.ninguno;
   Settings.menu('settings', [
-    {id:'settings-juego'},
+    {id:'settings-juego', class:'setting_section'},
       {id:'settings-juego-timeout', valor:{campo:{id:'selector-timeout',value:700,opciones:'numero'}}},
       {id:'settings-juego-rival', valor:{campo:{id:'selector-rival',defectoClass:'settings-juego-rival-qLearn',opciones:[
         {class:'settings-juego-rival-random', value:'jugadorRandom'},
         {class:'settings-juego-rival-rock', value:'jugadorBart'},
         {class:'settings-juego-rival-qLearn', value:'jugadorQLearn'}
       ]}}},
-    {id:'settings-qlearn',dependencias:dependenciaQLearn},
+    {id:'settings-qlearn', class:'setting_section',dependencias:dependenciaQLearn},
       {id:'settings-qlearn-memoria',dependencias:dependenciaQLearn,
         valor:{dependencias:dependenciaQLearn,campo:{id:'selector-memoria',value:3,min:1,max:5,opciones:'numero'}}},
       {id:'settings-qlearn-alpha',dependencias:dependenciaQLearn,
@@ -372,12 +372,24 @@ PPT.onLoad = function() {
         valor:{dependencias:dependenciaQLearn,campo:{id:'selector-lose',value:-5,opciones:'numero'}}},
       {id:'settings-qlearn-tie',dependencias:dependenciaQLearn,
         valor:{dependencias:dependenciaQLearn,campo:{id:'selector-tie',value:-4,opciones:'numero'}}},
-    {id:'settings-controles'},
+    {id:'settings-controles', class:'setting_section'},
       {id:'settings-controles-piedra', valor:{campo:{id:'selector-piedra',defectoClass:'tecla-z',opciones:teclas}}},
       {id:'settings-controles-papel', valor:{campo:{id:'selector-papel',defectoClass:'tecla-x',opciones:teclas}}},
       {id:'settings-controles-tijera', valor:{campo:{id:'selector-tijera',defectoClass:'tecla-c',opciones:teclas}}}
-  ]);
+  ], {defaultClass:'setting_option'});
   document.getElementById('inicio').hidden = false;
+  if (parametroURL('dov')) {
+      PPT.empezar();
+  }
+};
+
+const parametroURL = function(clave) {
+    let url = location.href;
+    clave = clave.replace(/[\[]/,"\\[").replace(/[\]]/,"\\]");
+    var regexS = "[\\?&]"+clave+"=([^&#]*)";
+    var regex = new RegExp( regexS );
+    var results = regex.exec( url );
+    return results == null ? null : results[1];
 };
 
 window.addEventListener('load', function() {

@@ -107,3 +107,12 @@ html, body {
   margin-left: 20px;
   margin-top: -10px;
 }
+
+.setting_section {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.setting_option {
+    padding-left: 20px;
+}
