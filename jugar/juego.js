@@ -133,16 +133,16 @@ PPT.empezar = function() {
 
 PPT.cargarSettings = function() {
   PPT.Settings.rival = document.getElementById('selector-rival').value;
-  let memoria = document.getElementById('selector-memoria').value;
+  let memoria = Number.parseFloat(document.getElementById('selector-memoria').value);
   if (memoria > 5) { memoria = 5; }
   if (memoria < 0) { memoria = 0; }
   PPT.Settings.parametrosQLearning.memoria = memoria;
-  PPT.Settings.parametrosQLearning.alpha = document.getElementById('selector-alpha').value;
-  PPT.Settings.parametrosQLearning.gamma = document.getElementById('selector-gamma').value;
-  PPT.Settings.parametrosQLearning.recompensa.win = document.getElementById('selector-win').value;
-  PPT.Settings.parametrosQLearning.recompensa.lose = document.getElementById('selector-lose').value;
-  PPT.Settings.parametrosQLearning.recompensa.tie = document.getElementById('selector-tie').value;
-  PPT.Settings.timeoutJugadaRival = document.getElementById('selector-timeout').value;
+  PPT.Settings.parametrosQLearning.alpha = Number.parseFloat(document.getElementById('selector-alpha').value);
+  PPT.Settings.parametrosQLearning.gamma = 0;//Number.parseFloat(document.getElementById('selector-gamma').value);
+  PPT.Settings.parametrosQLearning.recompensa.win = Number.parseFloat(document.getElementById('selector-win').value);
+  PPT.Settings.parametrosQLearning.recompensa.lose = Number.parseFloat(document.getElementById('selector-lose').value);
+  PPT.Settings.parametrosQLearning.recompensa.tie = Number.parseFloat(document.getElementById('selector-tie').value);
+  PPT.Settings.timeoutJugadaRival = Number.parseFloat(document.getElementById('selector-timeout').value);
   PPT.Control.elegir_piedra = document.getElementById('selector-piedra').value;
   PPT.Control.elegir_papel = document.getElementById('selector-papel').value;
   PPT.Control.elegir_tijera = document.getElementById('selector-tijera').value;
@@ -364,8 +364,8 @@ PPT.onLoad = function() {
         valor:{dependencias:dependenciaQLearn,campo:{id:'selector-memoria',value:3,min:1,max:5,opciones:'numero'}}},
       {id:'settings-qlearn-alpha',dependencias:dependenciaQLearn,
         valor:{dependencias:dependenciaQLearn,campo:{id:'selector-alpha',value:0.2,min:0,max:1,step:0.1,opciones:'numero'}}},
-      {id:'settings-qlearn-gamma',dependencias:dependenciaQLearn,
-        valor:{dependencias:dependenciaQLearn,campo:{id:'selector-gamma',value:0.1,min:0,max:1,step:0.1,opciones:'numero'}}},
+      /*{id:'settings-qlearn-gamma',dependencias:dependenciaQLearn,
+        valor:{dependencias:dependenciaQLearn,campo:{id:'selector-gamma',value:0.1,min:0,max:1,step:0.1,opciones:'numero'}}},*/
       {id:'settings-qlearn-win',dependencias:dependenciaQLearn,
         valor:{dependencias:dependenciaQLearn,campo:{id:'selector-win',value:5,opciones:'numero'}}},
       {id:'settings-qlearn-lose',dependencias:dependenciaQLearn,

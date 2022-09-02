@@ -52,7 +52,7 @@ PPT.JugadorQLearn = function() {
   this.nuevoValorQ = function(recompensa) {
     let valorAnterior = this.getQ(this.ultima_jugada);
     let maxqnew = Math.max.apply(null, PPT.jugadas.map((x) => this.getQ(x)));
-    return (1-this.alpha) * valorAnterior + this.alpha * ((recompensa + this.gamma*maxqnew) - valorAnterior)
+    return (1-this.alpha) * valorAnterior + this.alpha * ((recompensa/* + this.gamma*maxqnew*/)/* - valorAnterior*/);
   };
   this.obtenerClaveEstado = function() {
     if (this.estado == 'HISTORIAL') {
@@ -129,7 +129,8 @@ PPT.jugadaQLearn = function() {
     if (maxQ.length == 1) {
       this.ultima_jugada = maxQ[0].jugada;
     } else {
-      this.ultima_jugada = maxQ[Math.floor(maxQ.length*Math.random())].jugada;
+      let rand = Math.random();
+      this.ultima_jugada = maxQ[Math.floor(maxQ.length*rand)].jugada;
     }
   }
   return this.ultima_jugada;
